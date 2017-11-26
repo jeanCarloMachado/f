@@ -26,12 +26,13 @@ function patternMatch (array $config) {
         throw new \Exception('No match found');
     };
 }
-
+// [a] -> a
 function head($xs) {
     $result = reset($xs);
     return $result;
 }
 
+// [a] -> [a]
 function tail($xs) : array {
 
     if (!$xs) {
@@ -40,9 +41,9 @@ function tail($xs) : array {
 
     $result = [];
     $counter = 1;
-    foreach($xs as $entry) {
+    foreach($xs as $key => $entry) {
         if ($counter != 1) {
-            $result[] = $entry;
+            $result[$key] = $entry;
         }
         $counter++;
     }
@@ -71,7 +72,7 @@ function takeFrom(\Generator $range, int $num) {
 }
 
 
-// f -> a -> [] -> a
+// f -> a -> [a] -> a
 function fold($callable, $init) {
     $fold = function($list) use ($init, $callable, &$fold) {
         if (empty($list)) {

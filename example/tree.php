@@ -1,44 +1,71 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
 
-class Cons {
-    private $value;
-    private $type;
-    public function __construct($value)
-    {
-        $this->value = $value;
-        $this->type = gettype($value);
-    }
-    public function  __invoke($value) {
-        return $value;
-    }
-    public function getType() {
-        return $this->type;
-    }
-}
+$tree = [
+    '01' => [
+        '02',
+        '03' => [
+            '4',
+        ]
+    ]
+];
 
-class Listof {
-    private $elements = [];
-    private $type;
-    public static function fromScalar(array $array) {
-        $list = new self;
-        foreach($array as $entry) {
-            $list->append(new Cons($entry));
-        }
+$foldTree = function($f, $initial, $tree) use (&$foldTree) {
+    if ($tree == null || empty($tree)) {
+        return $initial;
+    }
 
-        return $list;
+    reset($tree);
+    $headKey = key($tree);
+
+    //string head has children
+    if (is_string($headKey)) {
+        return $f(
+            //pass head key
+            $headKey,
+            //pass content o head
+            $foldTree($f, $initial, \f\head($tree))
+        );
     }
-    public function getType() {
-        return $this->type;
-    }
-    public function append(Cons $c) {
-        if (!$this->getType()) {
-            $this->type  = $c->getType();
-        }
-        if ($c->getType() != $this->getType()) {
-            throw new \Exception('elements have to be of same type');
-        }
-        $this->elements[] = $c;
-    }
-}
-$list = Listof::fromScalar([1,2,1]);
+
+    //normal index so without subtrees
+    return $f(
+        //first value
+        \f\head($tree),
+        //pass the rest of the ree
+        $foldTree($f, $initial, \f\tail($tree))
+    );
+};
+
+$sum = function($a, $b) {
+    return $a + $b;
+};
+
+echo "Sum:".$foldTree($sum, 0, $tree);
+echo PHP_EOL;
+
+$append = function($a, $b) {
+    $b[] = (int) $a;
+    return $b;
+};
+
+echo "Append:";
+echo PHP_EOL;
+print_r($foldTree($append, [], $tree));
+
+$mapTree = function ($f, $tree) use ($foldTree) {
+    $runAndAppend = function($a, $b) use ($f) {
+        $b[] = $f($a);
+        return $b;
+    };
+    return $foldTree($runAndAppend, [], $tree);
+};
+
+$double = function($a) {
+    return $a*2;
+};
+echo "Map:";
+echo PHP_EOL;
+print_r($mapTree($double, $tree));
+
+
