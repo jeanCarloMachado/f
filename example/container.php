@@ -1,6 +1,6 @@
 <?php
 
-class  Container {
+class Container {
     private $factories = [];
 
     public function __set($key, $func) {

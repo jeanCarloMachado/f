@@ -1,6 +1,5 @@
 <?php
 
-namespace f;
 
 class PartiallyApplyTest extends \PHPUnit\Framework\TestCase
 {
@@ -10,7 +9,7 @@ class PartiallyApplyTest extends \PHPUnit\Framework\TestCase
             return $a+$b;
         };
 
-        $sumPartial = partial($sum);
+        $sumPartial = \f\partial($sum);
         $sum5 = $sumPartial(5);
         $this->assertEquals(14, $sum5(9));
     }
@@ -20,7 +19,7 @@ class PartiallyApplyTest extends \PHPUnit\Framework\TestCase
         $threeArgs = function($a, $b, $c) {
             return [$a, $b, $c];
         };
-        $treeArgsPartial  = new PartiallyApplyDeclare($threeArgs);
+        $treeArgsPartial  = \f\partial($threeArgs);
         $firstAs666 = $treeArgsPartial(666);
         $this->assertEquals([666,777,888],$firstAs666(777, 888));
     }

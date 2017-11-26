@@ -1,6 +1,5 @@
-namespace f;
-
-require __DIR__ . '/../vendor/autoload.php';
+<?php
+require_once __DIR__.'/../vendor/autoload.php';
 
 function newtonImperative($n, $eps = 0.00001) {
     $x = $n+1 / $n; //close approximation
@@ -19,15 +18,15 @@ function newtonImperative($n, $eps = 0.00001) {
 $next = function ($n, $x) {
     return ($x + $n/$x)/2;
 };
-$partialNext = new PartiallyApplyDeclare($next);
+$partialNext = \f\partial($next);
 
-$repeat = function($f, $a)  use (&$repeat) {
+$repeat = function($f, $a) use (&$repeat) {
     $result =  $f($a);
     yield $result;
     yield from $repeat($f, $result);
 };
 
-$approximation =  function($n) {
+$approximation = function($n) {
     return ($n + 1 / $n);
 };
 

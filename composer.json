@@ -1,8 +1,7 @@
 {
     "require": {
-        "phpunit/phpunit": "dev-master"
+        "phpunit/phpunit": "~6"
     },
-    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "f\\": "src"
