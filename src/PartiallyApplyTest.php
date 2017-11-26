@@ -1,24 +1,26 @@
 <?php
 
-use f\PartiallyApplyDeclare;
-
+namespace f;
 
 class PartiallyApplyTest extends \PHPUnit\Framework\TestCase
 {
-    public function testAll()
+    public function testSum()
     {
         $sum = function($a, $b) {
             return $a+$b;
         };
 
-        $sumPartial = new PartiallyApplyDeclare($sum);
+        $sumPartial = partial($sum);
         $sum5 = $sumPartial(5);
         $this->assertEquals(14, $sum5(9));
+    }
 
-        $treeArgs = function($a, $b, $c) {
+    public function testThreeArgs()
+    {
+        $threeArgs = function($a, $b, $c) {
             return [$a, $b, $c];
         };
-        $treeArgsPartial  = new PartiallyApplyDeclare($treeArgs);
+        $treeArgsPartial  = new PartiallyApplyDeclare($threeArgs);
         $firstAs666 = $treeArgsPartial(666);
         $this->assertEquals([666,777,888],$firstAs666(777, 888));
     }

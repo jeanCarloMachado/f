@@ -1,7 +1,5 @@
 <?php
 namespace f;
-use \f\PartiallyApplyDeclare;
-require __DIR__.'/fold.php';
 
 class FoldTest extends \PHPUnit\Framework\TestCase
 {
@@ -76,7 +74,7 @@ class FoldTest extends \PHPUnit\Framework\TestCase
         $sum = function($a, $b) {
             return $a+$b;
         };
-        $sumPartial = new PartiallyApplyDeclare($sum);
+        $sumPartial = partial($sum);
         $sum1 = $sumPartial(1);
         $count = fold($sum1, 0);
         $this->assertEquals(4, $count([3, 4, 5, 7]));
@@ -87,10 +85,10 @@ class FoldTest extends \PHPUnit\Framework\TestCase
         $product = function($a, $b) {
             return $a * $b;
         };
-        $productPartial = new PartiallyApplyDeclare($product);
+        $productPartial = partial($product);
         $double  = $productPartial(2);
 
-        $partialMap = new PartiallyApplyDeclare('map');
+        $partialMap = partial('f\map');
         $this->assertEquals([2, 4, 8], $partialMap($double)([1, 2, 4]));
     }
 
