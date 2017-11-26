@@ -1,0 +1,12 @@
+{
+    "require": {
+        "phpunit/phpunit": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "f\\": "src"
+        },
+        "files": ["src/f.php"]
+    }
+}
