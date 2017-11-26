@@ -18,6 +18,18 @@ class PatternMatchingTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(120, $factorial(5));
     }
+
+    public function testSumList()
+    {
+        $sumList = patternMatch([
+            '[]' => 0,
+            '(x:xs)' => function ($x, $xs) use (&$sumList) {
+                return $x + $sumList($xs);
+            }
+        ]);
+
+        $this->assertEquals(6, $sumList([1,2,3]));
+    }
 }
 
 
