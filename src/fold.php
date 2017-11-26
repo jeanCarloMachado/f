@@ -1,3 +1,0 @@
-<rphp
-
-namespacr f;

@@ -1,4 +1,5 @@
 <?php
+
 namespace f;
 
 class FoldTest extends \PHPUnit\Framework\TestCase

@@ -3,9 +3,11 @@
 namespace f;
 
 class PartiallyApplyDeclare {
+
     private $args;
     private $requiredArgs;
     private $callable;
+
     public function __construct($callable, $args = [])
     {
         $fct = new \ReflectionFunction($callable);

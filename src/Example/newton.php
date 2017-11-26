@@ -1,5 +1,3 @@
-<?php
-
 namespace f;
 
 require __DIR__ . '/../vendor/autoload.php';
