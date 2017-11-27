@@ -28,6 +28,20 @@ $count([3, 4, 5, 7]);
 //4
 ```
 
+## Fold Tree
+
+```sh
+$tree = [
+    '01' => [
+        '02',
+        '03' => [
+            '4',
+        ],
+    ]
+];
+foldTree($sum, $sum, 0, $tree)
+//10
+```
 
 ## Pattern matching
 
@@ -74,5 +88,6 @@ $memoizedFactorial(4);
  - Tail
  - Head
  - Map
+ - MapTree
 
 Contributions are welcomed :)

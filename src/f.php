@@ -120,37 +120,35 @@ function foldTree($receiveScalar, $receiveArray, $initial, $tree) {
         return $initial;
     }
 
-    reset($tree);
     $headKey = key($tree);
 
     if (is_string($headKey))  {
         $headArray =  $receiveScalar(foldTree($receiveScalar,$receiveArray, $initial, \f\head($tree)), $headKey);
         return $receiveArray(
-            //pass the rest of the ree
             foldTree($receiveScalar,$receiveArray, $initial, \f\tail($tree)),
-            //first value
-            $headArray
+            $headArray,
+            $headKey
         );
     }
 
-    $head = \f\head($tree);
-
-    //normal index so without subtrees
     return $receiveScalar(
-        //pass the rest of the ree
         foldTree($receiveScalar,$receiveArray, $initial, \f\tail($tree)),
-        //first value
-        $head
+        \f\head($tree),
+        $headKey
     );
 }
 
 function mapTree($f, $tree) {
-    $runAndAppend = function($a, $b) use ($f) {
-        $a[] = $f($b);
+    $runAndAppend = function($a, $b, $key = -1) use ($f) {
+        if ($key == -1) {
+            return $a;
+        }
+        $a[$key] = $f($b);
         return $a;
     };
-    $mergeTree= function($a, $b) use ($f) {
-        return array_merge($a, $b);
+    $mergeTree= function($a, $b, $key) use ($f) {
+        $a["0".$f($key)] = $b;
+        return $a;
     };
     return foldTree($runAndAppend, $mergeTree, [], $tree);
 }

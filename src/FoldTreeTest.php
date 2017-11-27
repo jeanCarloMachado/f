@@ -70,12 +70,14 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
         };
 
         $doubledTree = mapTree($double, $tree);
+
         $sum = function($a, $b) {
             return $a + $b;
         };
 
         $this->assertEquals(20, foldTree($sum, $sum, 0, $doubledTree));
     }
+
 }
 
 
