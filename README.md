@@ -75,4 +75,4 @@ $memoizedFactorial(4);
  - Head
  - Map
 
-Contributions are welcomed :)
+Contributions are welcome :)
