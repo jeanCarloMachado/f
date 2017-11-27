@@ -2,8 +2,15 @@
 
 namespace f;
 
-function partial($f) {
-    return new PartiallyApplyDeclare($f);
+function partial(callable $callable, ...$args)
+{
+    $arity = (new \ReflectionFunction($callable))->getNumberOfRequiredParameters();
+
+    return isset($args[$arity - 1])
+        ? $callable(...$args)
+        : function (...$passedArgs) use ($callable, $args) {
+            return partial($callable, ...array_merge($args, $passedArgs));
+        };
 }
 
 function patternMatch (array $config) {
