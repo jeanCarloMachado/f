@@ -46,8 +46,8 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
             ]
         ];
         $append = function($a, $b) {
-            $b[] = (int) $a;
-            return $b;
+            $a[] = (int) $b;
+            return $a;
         };
         $this->assertEquals([4,3,2,1], foldTree($append, $append, [], $tree));
     }

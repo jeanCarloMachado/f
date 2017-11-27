@@ -126,31 +126,30 @@ function foldTree($f, $g, $initial, $tree) {
     //string head has children
     if (is_string($headKey)) {
         return $f(
-            //pass head key
-            $headKey,
             //pass content o head
-            foldTree($f,$g, $initial, \f\head($tree))
+            foldTree($f,$g, $initial, \f\head($tree)),
+            //pass head key
+            $headKey
         );
     }
 
     //normal index so without subtrees
     return $g(
-        //first value
-        \f\head($tree),
         //pass the rest of the ree
-        foldTree($f,$g, $initial, \f\tail($tree))
+        foldTree($f,$g, $initial, \f\tail($tree)),
+        //first value
+        \f\head($tree)
     );
 }
 
-
 function mapTree($f, $tree) {
     $runAndAppend = function($a, $b) use ($f) {
-        $b[] = $f($a);
-        return $b;
+        $a[] = $f($b);
+        return $a;
     };
     $runAndIndice= function($a, $b) use ($f) {
-        $newA = $f($a);
-        return ["0$newA" => $b];
+        $newB = $f($b);
+        return ["0$newB" => $a];
     };
     return foldTree($runAndIndice, $runAndAppend, [], $tree);
 }
