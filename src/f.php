@@ -115,3 +115,42 @@ function memoize($function) {
 }
 
 
+function foldTree($f, $g, $initial, $tree) {
+    if ($tree == null || empty($tree)) {
+        return $initial;
+    }
+
+    reset($tree);
+    $headKey = key($tree);
+
+    //string head has children
+    if (is_string($headKey)) {
+        return $f(
+            //pass head key
+            $headKey,
+            //pass content o head
+            foldTree($f,$g, $initial, \f\head($tree))
+        );
+    }
+
+    //normal index so without subtrees
+    return $g(
+        //first value
+        \f\head($tree),
+        //pass the rest of the ree
+        foldTree($f,$g, $initial, \f\tail($tree))
+    );
+}
+
+
+function mapTree($f, $tree) {
+    $runAndAppend = function($a, $b) use ($f) {
+        $b[] = $f($a);
+        return $b;
+    };
+    $runAndIndice= function($a, $b) use ($f) {
+        $newA = $f($a);
+        return ["0$newA" => $b];
+    };
+    return foldTree($runAndIndice, $runAndAppend, [], $tree);
+}
