@@ -95,14 +95,16 @@ function fold($callable, $init) {
     return $fold;
 };
 
+
+function append($a, $b) {
+    $a[] = $b;
+    return $a;
+};
+
 // f -> [] -> []
 function map ($func, $list)  {
-    $appendOne = function($a, $b) {
-        $a[] = $b;
-        return $a;
-    };
-    $applyAndAppend = function($func, $list, $b) use ($appendOne) {
-        return $appendOne($list, $func($b));
+    $applyAndAppend = function($func, $list, $b){
+        return append($list, $func($b));
     };
     $applyAndAppendPartial = partial($applyAndAppend);
     return fold($applyAndAppendPartial($func), null)($list);
@@ -123,7 +125,6 @@ function memoize($function) {
         return $results[$key];
     };
 }
-
 
 function foldTree($receiveScalar, $receiveArray, $initial, $tree) {
     if ($tree == null || empty($tree)) {

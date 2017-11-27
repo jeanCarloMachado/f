@@ -66,7 +66,6 @@ $sumList([1,2,3]);
 
 ## Memoize
 
-
 ```php
 $calls = 0;
 $factorial = function($x) use (&$factorial, &$calls) {
