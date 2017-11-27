@@ -1,9 +1,11 @@
 # f
 
-f is a functional lib for php.
+f is a functional lib for php
+
+**Note: this lib is not optimized for performance yet**
+
 
 ## Currying
-
 
 ```php
 $threeArgs = function($a, $b, $c) {
@@ -11,7 +13,8 @@ $threeArgs = function($a, $b, $c) {
 };
 $treeArgsPartial  = \f\partial($threeArgs);
 $firstAs666 = $treeArgsPartial(666);
-$this->assertEquals([666,777,888],$firstAs666(777, 888));
+$firstAs666(777, 888);
+//[666,777,888]
 ```
 
 ## Fold
@@ -20,7 +23,7 @@ $this->assertEquals([666,777,888],$firstAs666(777, 888));
 $addOne = function($a, $b) {
     return $a+1;
 };
-$count = fold($addOne, 0);
+$count = \f\fold($addOne, 0);
 $count([3, 4, 5, 7]);
 //4
 ```
@@ -29,7 +32,7 @@ $count([3, 4, 5, 7]);
 ## Pattern matching
 
 ```php
-$sumList = patternMatch([
+$sumList = \f\patternMatch([
     '[]' => 0,
     '(x:xs)' => function ($x, $xs) use (&$sumList) {
         return $x + $sumList($xs);
@@ -43,7 +46,7 @@ $sumList([1,2,3]);
 ## Lazy loading
 
 ```php
-takeFrom(infinity(), 5)
+\f\takeFrom(\f\infinity(), 5)
 //[0,1,2,3,4]
 ```
 
@@ -60,7 +63,7 @@ $factorial = function($x) use (&$factorial, &$calls) {
     return $x * $factorial($x - 1);
 };
 
-$memoizedFactorial = memoize($factorial);
+$memoizedFactorial = \f\memoize($factorial);
 $memoizedFactorial(4);
 $memoizedFactorial(4);
 //$calls = 4
@@ -72,3 +75,4 @@ $memoizedFactorial(4);
  - Head
  - Map
 
+Contributions are welcomed :)
