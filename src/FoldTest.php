@@ -1,5 +1,4 @@
 <?php
-
 namespace f;
 
 class FoldTest extends \PHPUnit\Framework\TestCase
@@ -72,12 +71,10 @@ class FoldTest extends \PHPUnit\Framework\TestCase
 
     public function testCount()
     {
-        $sum = function($a, $b) {
-            return $a+$b;
+        $addOne = function($a, $b) {
+            return $a+1;
         };
-        $sumPartial = partial($sum);
-        $sum1 = $sumPartial(1);
-        $count = fold($sum1, 0);
+        $count = fold($addOne, 0);
         $this->assertEquals(4, $count([3, 4, 5, 7]));
     }
 
