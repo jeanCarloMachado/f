@@ -6,7 +6,7 @@ function partial(callable $callable, ...$args)
 {
     $arity = (new \ReflectionFunction($callable))->getNumberOfRequiredParameters();
 
-    return isset($args[$arity - 1])
+    return $args[$arity - 1] ?? false
         ? $callable(...$args)
         : function (...$passedArgs) use ($callable, $args) {
             return partial($callable, ...array_merge($args, $passedArgs));
