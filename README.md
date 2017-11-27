@@ -65,3 +65,10 @@ $memoizedFactorial(4);
 $memoizedFactorial(4);
 //$calls = 4
 ```
+
+## More
+
+ - Tail
+ - Head
+ - Map
+
