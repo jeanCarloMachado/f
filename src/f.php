@@ -58,11 +58,14 @@ function tail($xs) : array {
     return $result;
 }
 
-
-function infinity() : \Generator {
-    for ($i =0;;$i++) {
+function seq($init, $step) : \Generator {
+    for ($i =$init;;$i= $i + $step) {
         yield $i;
     }
+}
+
+function infinity() : \Generator {
+    yield from seq(0, 1);
 };
 
 
