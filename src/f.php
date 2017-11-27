@@ -115,7 +115,7 @@ function memoize($function) {
 }
 
 
-function foldTree($f, $g, $initial, $tree) {
+function foldTree($receiveScalar, $receiveArray, $initial, $tree) {
     if ($tree == null || empty($tree)) {
         return $initial;
     }
@@ -123,22 +123,24 @@ function foldTree($f, $g, $initial, $tree) {
     reset($tree);
     $headKey = key($tree);
 
-    //string head has children
-    if (is_string($headKey)) {
-        return $f(
-            //pass content o head
-            foldTree($f,$g, $initial, \f\head($tree)),
-            //pass head key
-            $headKey
+    if (is_string($headKey))  {
+        $headArray =  $receiveScalar(foldTree($receiveScalar,$receiveArray, $initial, \f\head($tree)), $headKey);
+        return $receiveArray(
+            //pass the rest of the ree
+            foldTree($receiveScalar,$receiveArray, $initial, \f\tail($tree)),
+            //first value
+            $headArray
         );
     }
 
+    $head = \f\head($tree);
+
     //normal index so without subtrees
-    return $g(
+    return $receiveScalar(
         //pass the rest of the ree
-        foldTree($f,$g, $initial, \f\tail($tree)),
+        foldTree($receiveScalar,$receiveArray, $initial, \f\tail($tree)),
         //first value
-        \f\head($tree)
+        $head
     );
 }
 
@@ -147,9 +149,8 @@ function mapTree($f, $tree) {
         $a[] = $f($b);
         return $a;
     };
-    $runAndIndice= function($a, $b) use ($f) {
-        $newB = $f($b);
-        return ["0$newB" => $a];
+    $mergeTree= function($a, $b) use ($f) {
+        return array_merge($a, $b);
     };
-    return foldTree($runAndIndice, $runAndAppend, [], $tree);
+    return foldTree($runAndAppend, $mergeTree, [], $tree);
 }

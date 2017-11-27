@@ -11,10 +11,10 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
     {
         $tree = [
             '01' => [
-                '02',
                 '03' => [
                     '4',
                 ],
+                '02',
             ]
         ];
 
@@ -49,7 +49,10 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
             $a[] = (int) $b;
             return $a;
         };
-        $this->assertEquals([4,3,2,1], foldTree($append, $append, [], $tree));
+        $merge = function($a, $b) {
+            return array_merge($a, $b);
+        };
+        $this->assertEquals([4,3,2,1], foldTree($append, $merge, [], $tree));
     }
 
     public function testDoubleTree()
@@ -71,7 +74,7 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
             return $a + $b;
         };
 
-        $this->assertEquals(16, foldTree($sum, $sum, 0, $doubledTree));
+        $this->assertEquals(20, foldTree($sum, $sum, 0, $doubledTree));
     }
 }
 
