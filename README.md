@@ -90,4 +90,4 @@ $memoizedFactorial(4);
  - Map
  - MapTree
 
-Contributions are welcomed :)
+Contributions are welcome :)
