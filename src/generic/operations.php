@@ -17,3 +17,9 @@ function aORb($a, $b) {
 function aANDb($a, $b) {
     return ($a and $b);
 }
+
+function append($a, $b) {
+    $a[] = $b;
+    return $a;
+};
+

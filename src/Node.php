@@ -19,9 +19,9 @@ class Node
         return !empty($this->children);
     }
 
-    public static function turnIntoNode($value)
+    public static function turnIntoNode($value, $children = [])
     {
-        return new self($value);
+        return new self($value, $children);
     }
 
     public static function turnIntoNodeIfNotAlready($value)

@@ -2,13 +2,8 @@
 
 namespace f;
 
-function append($a, $b) {
-    $a[] = $b;
-    return $a;
-};
-
 function appendList($l1, $l2) {
-    return fold("f\append", $l1)($l2);
+    return fold("f\op\append", $l1)($l2);
 }
 
 function partial(callable $callable, ...$args)
@@ -94,7 +89,7 @@ function fold($callable, $init) {
 // f -> [] -> []
 function map ($func, $list)  {
     $applyAndAppend = function($func, $list, $b){
-        return append($list, $func($b));
+        return \f\op\append($list, $func($b));
     };
     $applyAndAppendPartial = partial($applyAndAppend);
     return fold($applyAndAppendPartial($func), null)($list);
