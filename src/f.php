@@ -150,8 +150,6 @@ function allbutlast(array $a) {
     return $cpy;
 }
 
-
-
 function foldTree($f, $g, $initial, $tree) {
     if ($tree == null || empty($tree)) {
         return $initial;

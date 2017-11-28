@@ -43,6 +43,24 @@ foldTree($sum, $sum, 0, $tree)
 //10
 ```
 
+## Map Tree
+
+
+```php
+$tree = [
+    '03' => [1,4],
+    '01' => [1,'05' => [1,2, 3]]
+];
+$double = function($a) {
+    return $a*2;
+};
+$result  = mapTree($double, $tree);
+//[
+//    '06' => [2,8],
+//    '02' => [2,'010' => [2,4,6]]
+//];
+```
+
 ## Pattern matching
 
 ```php
@@ -89,6 +107,8 @@ $memoizedFactorial(4);
  - Tail
  - Head
  - Map
- - MapTree
+ - last
+ - lastKey
+ - allbutlast
 
 Contributions are welcome :)
