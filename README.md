@@ -39,7 +39,7 @@ $tree = [
         ],
     ]
 ];
-foldTree($sum, $sum, 0, $tree)
+\f\foldTree($sum, $sum, 0, $tree)
 //10
 ```
 
@@ -54,7 +54,7 @@ $tree = [
 $double = function($a) {
     return $a*2;
 };
-$result  = mapTree($double, $tree);
+$result  = \f\mapTree($double, $tree);
 //[
 //    '06' => [2,8],
 //    '02' => [2,'010' => [2,4,6]]
