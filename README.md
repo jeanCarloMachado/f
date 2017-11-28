@@ -9,7 +9,7 @@ f is a functional lib for php
 
 ```php
 $threeArgs = function($a, $b, $c) {
-    return [$a, $b, $c];
+    return [$a, $b, $c];$expected = 
 };
 $treeArgsPartial  = \f\partial($threeArgs);
 $firstAs666 = $treeArgsPartial(666);

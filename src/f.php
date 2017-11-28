@@ -169,7 +169,12 @@ function foldTree($f, $g, $initial, $tree) {
 function mapTree($f, $tree) {
     $runAndAppend = function($a, $b) use ($f) {
         if (is_array($b)) {
-            $a["0".\f\last($b)] =\f\allbutlast($b);
+            if (is_int(\f\last($b))) {
+                $a["0".\f\last($b)] =\f\allbutlast($b);
+            } else {
+                $a[\f\last($b)] =\f\allbutlast($b);
+            }
+
         } else {
             $a[] = $f($b);
         }

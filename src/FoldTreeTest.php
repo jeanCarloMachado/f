@@ -82,6 +82,25 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
 
     }
 
+    public function testCapitalizeTree()
+    {
+        $tree = [
+            'a' => ['b', 'c' => ['d']],
+            'e'
+        ];
+        $capitalize = function($a) {
+            return strtoupper($a);
+        };
+        $result  = mapTree($capitalize, $tree);
+        $expected = [
+            'A' => ['B', 'C' => ['D']],
+            'E'
+        ];
+
+        $this->assertEquals($result, $expected);
+
+    }
+
 }
 
 
