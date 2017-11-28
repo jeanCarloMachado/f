@@ -2,6 +2,15 @@
 
 namespace f;
 
+function append($a, $b) {
+    $a[] = $b;
+    return $a;
+};
+
+function appendList($l1, $l2) {
+    return fold("f\append", $l1)($l2);
+}
+
 function partial(callable $callable, ...$args)
 {
     $arity = (new \ReflectionFunction($callable))->getNumberOfRequiredParameters();
@@ -96,11 +105,6 @@ function fold($callable, $init) {
 };
 
 
-function append($a, $b) {
-    $a[] = $b;
-    return $a;
-};
-
 // f -> [] -> []
 function map ($func, $list)  {
     $applyAndAppend = function($func, $list, $b){
@@ -126,40 +130,70 @@ function memoize($function) {
     };
 }
 
-function foldTree($receiveScalar, $receiveArray, $initial, $tree) {
+function last(array $a) {
+    $cpy = $a;
+    $result = array_pop($cpy);
+    return $result;
+}
+
+function lastKey(array $a) {
+    $cpy = $a;
+    end($cpy);
+    $key = key($cpy);
+    return $key;
+}
+
+
+function allbutlast(array $a) {
+    $cpy = $a;
+    array_pop($cpy);
+    return $cpy;
+}
+
+
+
+function foldTree($f, $g, $initial, $tree) {
     if ($tree == null || empty($tree)) {
         return $initial;
     }
 
-    $headKey = key($tree);
+    if (is_scalar($tree)) {
+        return $f($initial, $tree);
+    }
 
-    if (is_string($headKey))  {
-        $headArray =  $receiveScalar(foldTree($receiveScalar,$receiveArray, $initial, \f\head($tree)), $headKey);
-        return $receiveArray(
-            foldTree($receiveScalar,$receiveArray, $initial, \f\tail($tree)),
-            $headArray,
-            $headKey
+    $last= \f\last($tree);
+    $lastKey = \f\lastKey($tree);
+
+
+    if (is_string($lastKey)) {
+        $last = $f(foldTree($f,$g,$initial, $last), $lastKey);
+        return $f(
+            foldTree($f,$g,$initial, \f\allbutlast($tree)),
+            $last
         );
     }
 
-    return $receiveScalar(
-        foldTree($receiveScalar,$receiveArray, $initial, \f\tail($tree)),
-        \f\head($tree),
-        $headKey
+
+    return $g(
+        foldTree($f, $g, $initial, \f\allbutlast($tree)),
+        foldTree($f, $g, $initial, $last)
     );
+
 }
 
+
 function mapTree($f, $tree) {
-    $runAndAppend = function($a, $b, $key = -1) use ($f) {
-        if ($key == -1) {
-            return $a;
+    $runAndAppend = function($a, $b) use ($f) {
+        if (is_array($b)) {
+            $a["0".\f\last($b)] =\f\allbutlast($b);
+        } else {
+            $a[] = $f($b);
         }
-        $a[$key] = $f($b);
         return $a;
     };
-    $mergeTree= function($a, $b, $key) use ($f) {
-        $a["0".$f($key)] = $b;
-        return $a;
+    $runAndIndice= function($a, $b) use ($f) {
+        return array_merge($a, $b);
     };
-    return foldTree($runAndAppend, $mergeTree, [], $tree);
+    return foldTree($runAndAppend, $runAndIndice, [], $tree);
 }
+

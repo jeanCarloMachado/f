@@ -39,14 +39,9 @@ class FoldTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($allTrue([true, false, true]));
     }
 
-    public function testAppend() {
-
-        $appendOne = function($a, $b) {
-            $a[] = $b;
-            return $a;
-        };
-        $append = fold($appendOne, [1, 2]);
-        $this->assertEquals([1,2,3,4], $append([3, 4]));
+    public function testFoldAppend()
+    {
+        $this->assertEquals([1,2,3,4], \f\appendList([1,2], [3, 4]));
     }
 
 
@@ -89,7 +84,6 @@ class FoldTest extends \PHPUnit\Framework\TestCase
         $partialMap = partial('f\map');
         $this->assertEquals([2, 4, 8], $partialMap($double)([1, 2, 4]));
     }
-
 }
 
 

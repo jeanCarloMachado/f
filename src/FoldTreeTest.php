@@ -10,72 +10,58 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
     public function testFoldTreeSum()
     {
         $tree = [
+            '3',
             '01' => [
-                '03' => [
-                    '4',
-                ],
-                '02',
+                '02' => [3, '01' => [1], 1],
+                '2'
             ]
         ];
-
 
         $sum = function($a, $b) {
             return $a + $b;
         };
 
-        $this->assertEquals(10, foldTree($sum, $sum, 0, $tree));
-        $tree = [
-            '01' => [
-                '02',
-                '03' => [
-                    '4',
-                ],
-            ]
-        ];
-        $this->assertEquals(10, foldTree($sum, $sum, 0, $tree));
+        $this->assertEquals(14, foldTree($sum, $sum, 0, $tree));
     }
 
-    public function testAppend()
+    public function testAppendTree()
     {
         $tree = [
-            '01' => [
-                '02',
-                '03' => [
-                    '4',
-                ]
-            ]
+            2,
+            '04' => [5, '07' => [1,3]]
         ];
-        $append = function($a, $b) {
-            $a[] = (int) $b;
+
+        $f = function($a, $b) {
+            if (is_array($b)) {
+                $a = array_merge($a, $b);
+            } else {
+                $a[] = $b;
+            }
+
+
             return $a;
         };
-        $merge = function($a, $b) {
-            return array_merge($a, $b);
-        };
-        $this->assertEquals([4,3,2,1], foldTree($append, $merge, [], $tree));
+
+        $this->assertEquals([2,5,1,3,7,4], foldTree($f, $f, [], $tree));
     }
 
     public function testDoubleTree()
     {
         $tree = [
-            '01' => [
-                '03' => [
-                    '4',
-                ],
-                '02',
-            ]
+            '03' => [1,4],
+            '01' => [1,'05' => [1,2, 3]]
         ];
         $double = function($a) {
             return $a*2;
         };
+        $result  = mapTree($double, $tree);
+        $expected = [
+            '06' => [2,8],
+            '02' => [2,'010' => [2,4,6]]
+        ];
 
-        $doubledTree = mapTree($double, $tree);
+        $this->assertEquals($result, $expected);
 
-        $sum = function($a, $b) {
-            return $a + $b;
-        };
-
-        $this->assertEquals(20, foldTree($sum, $sum, 0, $doubledTree));
     }
 
 }

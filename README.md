@@ -84,6 +84,8 @@ $memoizedFactorial(4);
 
 ## More
 
+ - append
+ - appendList
  - Tail
  - Head
  - Map
