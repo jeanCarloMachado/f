@@ -50,21 +50,7 @@ function head($xs) {
 
 // [a] -> [a]
 function tail($xs) : array {
-
-    if (!$xs) {
-        return [];
-    }
-
-    $result = [];
-    $counter = 1;
-    foreach($xs as $key => $entry) {
-        if ($counter != 1) {
-            $result[$key] = $entry;
-        }
-        $counter++;
-    }
-
-    return $result;
+    return array_slice($xs, 1);
 }
 
 function seq($init, $step) : \Generator {
