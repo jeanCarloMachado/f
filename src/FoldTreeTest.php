@@ -24,6 +24,24 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(14, foldTree($sum, $sum, 0, $tree));
     }
 
+    public function testFoldTreeProduct()
+    {
+        $tree = [
+            '2',
+            '02' => [
+                '02' => [2],
+                2
+            ]
+        ];
+
+        $product = function($a, $b) {
+            return $a * $b;
+        };
+
+        $this->assertEquals(32, foldTree($product, $product, 1, $tree));
+    }
+
+
     public function testAppendTree()
     {
         $tree = [
