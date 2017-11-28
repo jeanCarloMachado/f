@@ -6,6 +6,9 @@
         "psr-4": {
             "f\\": "src"
         },
-        "files": ["src/f.php"]
+        "files": [
+            "src/f.php",
+            "src/generic/operations.php"
+        ]
     }
 }

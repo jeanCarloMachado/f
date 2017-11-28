@@ -140,23 +140,19 @@ function foldTree($f, $g, $initial, $tree) {
     if ($tree == null || empty($tree)) {
         return $initial;
     }
-
-    if (is_scalar($tree)) {
-        return $f($initial, $tree);
+    if (is_object($tree)) {
+        return $f($initial, $tree->value);
     }
 
-    $last= \f\last($tree);
-    $lastKey = \f\lastKey($tree);
+    $last = \f\last($tree);
 
-
-    if (is_string($lastKey)) {
-        $last = $f(foldTree($f,$g,$initial, $last), $lastKey);
+    if ($last->hasChildren()) {
+        $last = $f(foldTree($f,$g,$initial, $last->children), $last->value);
         return $f(
             foldTree($f,$g,$initial, \f\allbutlast($tree)),
             $last
         );
     }
-
 
     return $g(
         foldTree($f, $g, $initial, \f\allbutlast($tree)),
@@ -169,14 +165,17 @@ function foldTree($f, $g, $initial, $tree) {
 function mapTree($f, $tree) {
     $runAndAppend = function($a, $b) use ($f) {
         if (is_array($b)) {
-            if (is_int(\f\last($b))) {
-                $a["0".\f\last($b)] =\f\allbutlast($b);
-            } else {
-                $a[\f\last($b)] =\f\allbutlast($b);
-            }
-
+            $last = \f\Node::turnIntoNodeIfNotAlready(\f\last($b));
+            $last->children = array_map(
+                    ["f\Node", "turnIntoNodeIfNotAlready"],
+                    \f\allbutlast($b)
+                );
+            $a[] = $last;
         } else {
-            $a[] = $f($b);
+
+            $result = new Node($f($b));
+            $result = \f\Node::turnIntoNodeIfNotAlready($result);
+            $a[] = $result;
         }
         return $a;
     };

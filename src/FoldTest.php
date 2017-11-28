@@ -4,37 +4,25 @@ namespace f;
 class FoldTest extends \PHPUnit\Framework\TestCase
 {
     public function testSum() {
-        $sum = function($a, $b) {
-            return $a+$b;
-        };
-        $sumList = fold($sum, 0);
+        $sumList = fold('f\op\sum', 0);
         $this->assertEquals(21, $sumList([6, 7, 8]));
     }
 
     public function testProduct() {
 
-        $multiplyTwo = function($a, $b) {
-            return $a*$b;
-        };
-        $product = fold($multiplyTwo, 1);
+        $product = fold('f\op\product', 1);
         $this->assertEquals(6, $product([1,2,3]));
     }
 
     public function testAnyTrue() {
-        $or = function($a, $b) {
-            return ($a or $b);
-        };
-        $anytrue = fold($or, false);
+        $anytrue = fold('\f\op\aORb', false);
         $this->assertEquals(true, $anytrue([true, false, false]));
         $this->assertEquals(false, $anytrue([false, false, false]));
     }
 
-    public function testAllTrue() {
-
-        $and = function($a, $b) {
-            return ($a and $b);
-        };
-        $allTrue = fold($and, true);
+    public function testAllTrue()
+    {
+        $allTrue = fold('f\op\aANDb', true);
         $this->assertTrue($allTrue([true, true, true]));
         $this->assertFalse($allTrue([true, false, true]));
     }
@@ -53,12 +41,9 @@ class FoldTest extends \PHPUnit\Framework\TestCase
             [1,2,1],
         ];
 
-        $sum = function($a, $b) {
-            return $a+$b;
-        };
-        $sumList = fold($sum, 0);
-        $applyFuncAndSum = function($a, $b) use ($sum, $sumList) {
-            return $sum ($a, $sumList($b));
+        $sumList = fold('f\op\sum', 0);
+        $applyFuncAndSum = function($a, $b) use ($sumList) {
+            return call_user_func('f\op\sum', $a, $sumList($b));
         };
         $sumListOfLists = fold($applyFuncAndSum, 0);
         $this->assertEquals(12, $sumListOfLists($matrix));
@@ -75,11 +60,7 @@ class FoldTest extends \PHPUnit\Framework\TestCase
 
     public function testDoubleAll()
     {
-        $product = function($a, $b) {
-            return $a * $b;
-        };
-        $productPartial = partial($product);
-        $double  = $productPartial(2);
+        $double  = partial('f\op\product')(2);
 
         $partialMap = partial('f\map');
         $this->assertEquals([2, 4, 8], $partialMap($double)([1, 2, 4]));

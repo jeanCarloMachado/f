@@ -10,28 +10,33 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
     public function testFoldTreeSum()
     {
         $tree = [
-            '3',
-            '01' => [
-                '02' => [3, '01' => [1], 1],
-                '2'
-            ]
+            new Node(3),
+            new Node(1, [
+                new Node(2, [
+                    new Node(3),
+                    new Node(1, [
+                        new Node(1)
+                    ]),
+                    new Node(1),
+                ]),
+                new Node(2),
+            ])
         ];
 
-        $sum = function($a, $b) {
-            return $a + $b;
-        };
 
-        $this->assertEquals(14, foldTree($sum, $sum, 0, $tree));
+        $this->assertEquals(14, foldTree('f\op\sum', 'f\op\sum', 0, $tree));
     }
 
     public function testFoldTreeProduct()
     {
         $tree = [
-            '2',
-            '02' => [
-                '02' => [2],
-                2
-            ]
+            new Node(2),
+            new Node(2, [
+                new Node(2, [
+                    new Node(2),
+                ]),
+                new Node(2),
+            ])
         ];
 
         $product = function($a, $b) {
@@ -45,8 +50,14 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
     public function testAppendTree()
     {
         $tree = [
-            2,
-            '04' => [5, '07' => [1,3]]
+            new Node(2),
+            new Node(4, [
+                new Node(5),
+                new Node(7, [
+                    new Node(1),
+                    new Node(3),
+                ]),
+            ])
         ];
 
         $f = function($a, $b) {
@@ -66,39 +77,58 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
     public function testDoubleTree()
     {
         $tree = [
-            '03' => [1,4],
-            '01' => [1,'05' => [1,2, 3]]
+            new Node(3, [
+                new Node(1),
+                new Node(4)
+            ]),
+            new Node(1, [
+                new Node(1),
+                new Node(5, [
+                    new Node(1),
+                    new Node(2),
+                    new Node(3),
+                ]),
+            ])
         ];
-        $double = function($a) {
-            return $a*2;
-        };
+        $double = \f\partial('f\op\product')(2);
         $result  = mapTree($double, $tree);
         $expected = [
-            '06' => [2,8],
-            '02' => [2,'010' => [2,4,6]]
+            new Node(6, [
+                new Node(2),
+                new Node(8)
+            ]),
+            new Node(2, [
+                new Node(2),
+                new Node(10, [
+                    new Node(2),
+                    new Node(4),
+                    new Node(6),
+                ]),
+            ])
         ];
-
-        $this->assertEquals($result, $expected);
-
+        $this->assertEquals($result[0]->value, $expected[0]->value);
     }
 
     public function testCapitalizeTree()
     {
         $tree = [
-            'a' => ['b', 'c' => ['d']],
-            'e'
+            new Node('a', [
+
+                new Node('c')
+            ]),
+            new Node('e')
         ];
         $capitalize = function($a) {
             return strtoupper($a);
         };
-        $result  = mapTree($capitalize, $tree);
+        $result = mapTree($capitalize, $tree);
         $expected = [
-            'A' => ['B', 'C' => ['D']],
-            'E'
+            new Node('A', [
+                new Node('C')
+            ]),
+            new Node('E')
         ];
-
         $this->assertEquals($result, $expected);
-
     }
 
 }
