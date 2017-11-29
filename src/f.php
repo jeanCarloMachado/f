@@ -98,12 +98,12 @@ function fold($callable, $init) {
 
 
 // f -> [] -> []
-function map ($func, $list)  {
-    $applyAndAppend = function($func, $list, $b){
-        return \f\op\append($list, $func($b));
+function map($f, $list)  {
+    $applyAndAppend = function($f, $list, $b){
+        return \f\op\append($list, $f($b));
     };
-    $applyAndAppendPartial = partial($applyAndAppend);
-    return fold($applyAndAppendPartial($func), null)($list);
+    $applyAndAppendPartial = partial($applyAndAppend)($f);
+    return fold($applyAndAppendPartial, null)($list);
 }
 
 // f -> f -> a

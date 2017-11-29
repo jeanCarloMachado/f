@@ -106,8 +106,29 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
                 ]),
             ])
         ];
-        $this->assertEquals($result[0]->value, $expected[0]->value);
+        $this->assertEquals($result, $expected);
     }
+
+
+    public function testTreeIdentify()
+    {
+        $tree = [
+            new Node('a', [
+
+                new Node('c')
+            ]),
+            new Node('e')
+        ];
+        $result = \f\tree\map('f\op\identity', $tree);
+        $expected = [
+            new Node('a', [
+                new Node('c')
+            ]),
+            new Node('e')
+        ];
+        $this->assertEquals($result, $expected);
+    }
+
 
     public function testCapitalizeTree()
     {
@@ -146,27 +167,6 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(9, \f\tree\fold('f\op\greater', 'f\op\greater', 0, $tree));
     }
-
-    public function atestPruneTree()
-    {
-        $tree = [
-            new Node(2),
-            new Node(2),
-            new Node(2),
-        ];
-
-        $keepX = partial('f\op\keepN')(2);
-        $result = \f\tree\fold($keepX, $keepX, 0, $tree);
-
-
-        $tree = [
-            new Node(2),
-            new Node(2),
-        ];
-
-        $this->assertEquals($result, $expect);
-    }
-
 }
 
 
