@@ -81,6 +81,12 @@ class FoldTest extends \PHPUnit\Framework\TestCase
         $list = [3,1,2];
         $this->assertEquals(1, \f\min($list));
     }
+
+    public function testPrune()
+    {
+        $list = [1,2,3,4,5];
+        $this->assertEquals([1,2,3], \f\prune(3, $list));
+    }
 }
 
 

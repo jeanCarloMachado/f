@@ -8,6 +8,7 @@
         },
         "files": [
             "src/f.php",
+            "src/tree.php",
             "src/generic/operations.php"
         ]
     }

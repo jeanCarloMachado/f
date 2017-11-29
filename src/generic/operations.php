@@ -36,3 +36,14 @@ function smaller($a, $b) {
     }
     return $a;
 }
+
+function keepN($n, $a, $b) {
+    if (count($a) < $n) {
+        $a[] = $b;
+    }
+    return $a;
+}
+
+function merge($a, $b) {
+    return array_merge($a, $b);
+}

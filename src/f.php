@@ -14,6 +14,11 @@ function min($a) {
     return fold('f\op\smaller', PHP_INT_MAX)($a);
 }
 
+function prune($x, $list) {
+    $keepX = partial('f\op\keepN')($x);
+    return fold($keepX, null)($list);
+}
+
 function partial(callable $callable, ...$args)
 {
     $arity = (new \ReflectionFunction($callable))->getNumberOfRequiredParameters();
@@ -40,7 +45,6 @@ function patternMatch (array $config) {
             } elseif ($key === '(x:xs)') {
                 return call_user_func($whatToDo, head($x), tail($x));
             }
-
         }
         throw new \Exception('No match found');
     };
@@ -65,7 +69,6 @@ function seq($init, $step) : \Generator {
 function infinity() : \Generator {
     yield from seq(0, 1);
 };
-
 
 function takeFrom(\Generator $range, int $num) {
     $result = [];
@@ -137,53 +140,5 @@ function allbutlast(array $a) {
     $cpy = $a;
     array_pop($cpy);
     return $cpy;
-}
-
-function foldTree($f, $g, $initial, $tree) {
-    if ($tree == null || empty($tree)) {
-        return $initial;
-    }
-    if (is_object($tree)) {
-        return $f($initial, $tree->value);
-    }
-
-    $last = \f\last($tree);
-
-    if ($last->hasChildren()) {
-        $last = $f(foldTree($f,$g,$initial, $last->children), $last->value);
-        return $f(
-            foldTree($f,$g,$initial, \f\allbutlast($tree)),
-            $last
-        );
-    }
-
-    return $g(
-        foldTree($f, $g, $initial, \f\allbutlast($tree)),
-        foldTree($f, $g, $initial, $last)
-    );
-
-}
-
-function mapTree($f, $tree) {
-    $runAndAppend = function($a, $b) use ($f) {
-        if (is_array($b)) {
-            $last = \f\Node::turnIntoNodeIfNotAlready(\f\last($b));
-            $last->children = array_map(
-                    ["f\Node", "turnIntoNodeIfNotAlready"],
-                    \f\allbutlast($b)
-                );
-            $a[] = $last;
-        } else {
-
-            $result = new Node($f($b));
-            $result = \f\Node::turnIntoNodeIfNotAlready($result);
-            $a[] = $result;
-        }
-        return $a;
-    };
-    $runAndIndice= function($a, $b) use ($f) {
-        return array_merge($a, $b);
-    };
-    return foldTree($runAndAppend, $runAndIndice, [], $tree);
 }
 

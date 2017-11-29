@@ -24,7 +24,7 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
         ];
 
 
-        $this->assertEquals(14, foldTree('f\op\sum', 'f\op\sum', 0, $tree));
+        $this->assertEquals(14, \f\tree\fold('f\op\sum', 'f\op\sum', 0, $tree));
     }
 
     public function testFoldTreeProduct()
@@ -43,7 +43,7 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
             return $a * $b;
         };
 
-        $this->assertEquals(32, foldTree($product, $product, 1, $tree));
+        $this->assertEquals(32, \f\tree\fold($product, $product, 1, $tree));
     }
 
 
@@ -71,7 +71,7 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
             return $a;
         };
 
-        $this->assertEquals([2,5,1,3,7,4], foldTree($f, $f, [], $tree));
+        $this->assertEquals([2,5,1,3,7,4], \f\tree\fold($f, $f, [], $tree));
     }
 
     public function testDoubleTree()
@@ -91,7 +91,7 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
             ])
         ];
         $double = \f\partial('f\op\product')(2);
-        $result  = mapTree($double, $tree);
+        $result  = \f\tree\map($double, $tree);
         $expected = [
             new Node(6, [
                 new Node(2),
@@ -121,7 +121,7 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
         $capitalize = function($a) {
             return strtoupper($a);
         };
-        $result = mapTree($capitalize, $tree);
+        $result = \f\tree\map($capitalize, $tree);
         $expected = [
             new Node('A', [
                 new Node('C')
@@ -144,8 +144,29 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
             ])
         ];
 
-        $this->assertEquals(9, foldTree('f\op\greater', 'f\op\greater', 0, $tree));
+        $this->assertEquals(9, \f\tree\fold('f\op\greater', 'f\op\greater', 0, $tree));
     }
+
+    public function atestPruneTree()
+    {
+        $tree = [
+            new Node(2),
+            new Node(2),
+            new Node(2),
+        ];
+
+        $keepX = partial('f\op\keepN')(2);
+        $result = \f\tree\fold($keepX, $keepX, 0, $tree);
+
+
+        $tree = [
+            new Node(2),
+            new Node(2),
+        ];
+
+        $this->assertEquals($result, $expect);
+    }
+
 }
 
 
