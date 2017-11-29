@@ -131,6 +131,22 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($result, $expected);
     }
 
+    public function testMaxTree()
+    {
+        $tree = [
+            new Node(2),
+            new Node(4, [
+                new Node(5),
+                new Node(1),
+                new Node(9, [
+                    new Node(3),
+                ]),
+            ])
+        ];
+
+        $this->assertEquals(9, foldTree('f\op\greater', 'f\op\greater', 0, $tree));
+    }
+
 }
 
 

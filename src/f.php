@@ -160,7 +160,6 @@ function foldTree($f, $g, $initial, $tree) {
 
 }
 
-
 function mapTree($f, $tree) {
     $runAndAppend = function($a, $b) use ($f) {
         if (is_array($b)) {
