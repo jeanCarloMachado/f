@@ -167,6 +167,57 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(9, \f\tree\fold('f\op\greater', 'f\op\greater', 0, $tree));
     }
+
+    /* public function testPruneTree() */
+    /* { */
+    /*     $tree = [ */
+    /*         new Node(1, [ */
+    /*             new Node(5, [ */
+    /*                 new Node(2, [ */
+    /*                     new Node(4), */
+    /*                     new Node(4), */
+    /*                     new Node(4), */
+    /*                     new Node(4), */
+    /*                 ]), */
+    /*             ]), */
+    /*         ]) */
+    /*     ]; */
+    /*     $prune = function($n, $tree) { */
+    /*         $applyMakeNodeAndJoinChildren = function ($append, $f, $a, $b)  { */
+    /*             print_r($a); */
+    /*             if (is_array($b)) { */
+    /*                 $last = \f\Node::turnIntoNodeIfNotAlready(\f\last($b)); */
+    /*                 $last->children = array_map( */
+    /*                         ["f\Node", "turnIntoNodeIfNotAlready"], */
+    /*                         \f\allbutlast($b) */
+    /*                     ); */
+    /*                 return $append($a, $last); */
+    /*             } */
+
+    /*             $value = $f($b); */
+    /*             $bResult = \f\Node::turnIntoNodeIfNotAlready($value); */
+    /*             return $append($a, $bResult); */
+    /*         }; */
+    /*         $partialApplyMakeNodeAndJoinChildren = \f\partial($applyMakeNodeAndJoinChildren)('f\op\append', 'f\op\identity'); */
+
+    /*         return \f\tree\fold($partialApplyMakeNodeAndJoinChildren, 'f\op\merge', [], $tree); */
+    /*     }; */
+
+
+
+    /*     $result = $prune(2, $tree); */
+    /*     print_r($result);die; */
+
+    /*     $expected = [ */
+    /*         new Node(1, [ */
+    /*             new Node(5, [ */
+    /*                 new Node(1), */
+    /*             ]), */
+    /*         ]) */
+    /*     ]; */
+    /*     $this->assertEquals($result, $expected); */
+    /* } */
+
 }
 
 
