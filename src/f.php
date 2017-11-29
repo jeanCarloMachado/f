@@ -6,6 +6,10 @@ function appendList($l1, $l2) {
     return fold("f\op\append", $l1)($l2);
 }
 
+function max($a) {
+    return fold('f\op\greater', null)($a);
+}
+
 function partial(callable $callable, ...$args)
 {
     $arity = (new \ReflectionFunction($callable))->getNumberOfRequiredParameters();

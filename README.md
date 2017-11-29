@@ -102,6 +102,7 @@ $memoizedFactorial(4);
 
 ## More
 
+ - max
  - append
  - appendList
  - Tail

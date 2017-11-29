@@ -23,3 +23,9 @@ function append($a, $b) {
     return $a;
 };
 
+function greater($a, $b) {
+    if ($b > $a) {
+        return $b;
+    }
+    return $a;
+}

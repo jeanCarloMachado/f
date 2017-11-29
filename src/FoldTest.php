@@ -65,6 +65,14 @@ class FoldTest extends \PHPUnit\Framework\TestCase
         $partialMap = partial('f\map');
         $this->assertEquals([2, 4, 8], $partialMap($double)([1, 2, 4]));
     }
+
+    public function testMax()
+    {
+        $list = [1,2,3];
+        $this->assertEquals(3, \f\max($list));
+        $list = [1,3,2];
+        $this->assertEquals(3, \f\max($list));
+    }
 }
 
 
