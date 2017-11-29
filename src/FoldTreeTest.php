@@ -146,7 +146,6 @@ class FoldTreeTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(9, foldTree('f\op\greater', 'f\op\greater', 0, $tree));
     }
-
 }
 
 

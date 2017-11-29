@@ -10,6 +10,10 @@ function max($a) {
     return fold('f\op\greater', null)($a);
 }
 
+function min($a) {
+    return fold('f\op\smaller', PHP_INT_MAX)($a);
+}
+
 function partial(callable $callable, ...$args)
 {
     $arity = (new \ReflectionFunction($callable))->getNumberOfRequiredParameters();

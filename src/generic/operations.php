@@ -29,3 +29,10 @@ function greater($a, $b) {
     }
     return $a;
 }
+
+function smaller($a, $b) {
+    if ($b < $a) {
+        return $b;
+    }
+    return $a;
+}

@@ -73,6 +73,14 @@ class FoldTest extends \PHPUnit\Framework\TestCase
         $list = [1,3,2];
         $this->assertEquals(3, \f\max($list));
     }
+
+    public function testMin()
+    {
+        $list = [1,2,3];
+        $this->assertEquals(1, \f\min($list));
+        $list = [3,1,2];
+        $this->assertEquals(1, \f\min($list));
+    }
 }
 
 
