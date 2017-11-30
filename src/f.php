@@ -6,6 +6,22 @@ function appendList($l1, $l2) {
     return fold("f\op\append", $l1)($l2);
 }
 
+function allTrue($a)
+{
+    return fold('f\op\aANDb', null)($a);
+}
+
+function anyTrue($a)
+{
+    return fold('f\op\aORb', null)($a);
+}
+
+
+function noneTrue($a)
+{
+    return !anytrue($a);
+}
+
 function max($a) {
     return fold('f\op\greater', null)($a);
 }
@@ -60,21 +76,21 @@ function tail($xs) : array {
     return array_slice($xs, 1);
 }
 
-function seq($init, $step) : \Generator {
-    for ($i =$init;;$i= $i + $step) {
+function infiniteSequence($init=0, $step=1) : \Generator {
+    for ($i = $init ;; $i = $i + $step) {
         yield $i;
     }
 }
 
 function infinity() : \Generator {
-    yield from seq(0, 1);
+    yield from infiniteSequence(0, 1);
 };
 
 function takeFrom(\Generator $range, int $num) {
     $result = [];
     foreach($range as $entry) {
         $result[] = $entry;
-        if (count($result) >= $num) {
+        if (count($result) == $num) {
             break;
         }
     }
@@ -84,18 +100,16 @@ function takeFrom(\Generator $range, int $num) {
 
 
 // f -> a -> [a] -> a
-function fold($callable, $init) {
-    $fold = function($list) use ($init, $callable, &$fold) {
-        if (empty($list)) {
-            return $init;
-        }
-
-        $last = array_pop($list);
-        return $callable($fold($list), $last);
-    };
-    return $fold;
+function realfold(callable $f, $init, $list) {
+    if (empty($list)) {
+        return $init;
+    }
+    return $f(realfold($f, $init, allbutlast($list)), last($list));
 };
 
+function fold(callable $f, $init) {
+    return \f\partial('f\realfold')($f, $init);
+}
 
 // f -> [] -> []
 function map($f, $list)  {
@@ -134,7 +148,6 @@ function lastKey(array $a) {
     $key = key($cpy);
     return $key;
 }
-
 
 function allbutlast(array $a) {
     $cpy = $a;

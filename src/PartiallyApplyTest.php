@@ -1,6 +1,5 @@
 <?php
 
-
 class PartiallyApplyTest extends \PHPUnit\Framework\TestCase
 {
     public function testSum()
@@ -8,6 +7,7 @@ class PartiallyApplyTest extends \PHPUnit\Framework\TestCase
         $sum = function($a, $b) {
             return $a+$b;
         };
+
 
         $sumPartial = \f\partial($sum);
         $sum5 = $sumPartial(5);

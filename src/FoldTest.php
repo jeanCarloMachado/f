@@ -61,6 +61,10 @@ class FoldTest extends \PHPUnit\Framework\TestCase
     public function testDoubleAll()
     {
         $double  = partial('f\op\product')(2);
+        $double  = partial('f\op\product')(2);
+
+        $partialMap = partial('f\map');
+        $this->assertEquals([2, 4, 8], $partialMap($double)([1, 2, 4]));
 
         $partialMap = partial('f\map');
         $this->assertEquals([2, 4, 8], $partialMap($double)([1, 2, 4]));
@@ -87,6 +91,7 @@ class FoldTest extends \PHPUnit\Framework\TestCase
         $list = [1,2,3,4,5];
         $this->assertEquals([1,2,3], \f\prune(3, $list));
     }
+
 }
 
 
