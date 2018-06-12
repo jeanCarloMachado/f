@@ -10,7 +10,7 @@
         "files": [
             "src/f.php",
             "src/tree.php",
-            "src/generic/operations.php"
+            "src/generic_operations.php"
         ]
     },
     "autoload-dev": {

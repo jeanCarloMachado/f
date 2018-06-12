@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace f;
 
 function appendList($l1, $l2) {
