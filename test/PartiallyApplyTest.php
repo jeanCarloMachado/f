@@ -1,5 +1,7 @@
 <?php
 
+namespace f;
+
 class PartiallyApplyTest extends \PHPUnit\Framework\TestCase
 {
     public function testSum()

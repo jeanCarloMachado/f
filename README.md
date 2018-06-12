@@ -99,18 +99,3 @@ $memoizedFactorial(4);
 $memoizedFactorial(4);
 //$calls = 4
 ```
-
-## More
-
- - max
- - min
- - append
- - appendList
- - Tail
- - Head
- - Map
- - last
- - lastKey
- - allbutlast
-
-Contributions are welcome :)
