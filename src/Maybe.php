@@ -25,13 +25,6 @@ final class Maybe
         return new self(false);
     }
 
-    public function match(
-        callable $just,
-        callable $nothing
-    ) {
-        return $this->isJust ? $just($this->value) : $nothing();
-    }
-
     public function isJust() : bool
     {
         return $this->isJust;
@@ -40,5 +33,15 @@ final class Maybe
     public function isNothing() : bool
     {
         return !$this->isJust;
+    }
+
+    public function getValueProvidingFallback($defaultValue)
+    {
+        //default and value should be of the same type
+        if  ($this->isJust()) {
+            return $this->value;
+        }
+
+        return $defaultValue;
     }
 }
