@@ -55,4 +55,7 @@ $loggedGetProfile = \f\partial('logService')($logger)('getProfile')($memoizedPro
 
 
 print_r($loggedGetProfile(666));
-print_r($loggedGetProfile(666)); 
+print_r($loggedGetProfile(666));
+
+
+

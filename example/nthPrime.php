@@ -23,5 +23,8 @@ function primes() {
     }
 }
 
-print_r(\f\takefrom(primes(), 10));
+$firstPrimes = \f\takefrom(primes(), 10);
 
+$secondPrimes = \f\takefrom(primes(), 15);
+
+print_r($secondPrimes);
