@@ -1,17 +1,6 @@
 <?php
 declare(strict_types=1);
 
-/* abstract class Monad { */
-/*     public $isValue = false; */
-
-/*     protected function __construct($a) */
-/*     { */
-/*         $this->a = $a; */
-/*     } */
-
-/*     abstract function apply($m, $k); */
-/* } */
-
 
 class Term {
 
@@ -39,6 +28,27 @@ class Term {
 }
 
 
+$term = Term::div(Term::cont(666), Term::div(Term::cont(333), Term::cont(111)));
+
+function evaluate(Term $term) : int {
+
+    switch($term->type) {
+        case "cont":
+            return $term->cont;
+        case "div":
+            $t = evaluate($term->a);
+            $u = evaluate($term->b);
+            return $t / $u;
+    }
+}
+
+echo evaluate($term);
+echo PHP_EOL;
+
+////////////////////
+
+////////////////////
+
 class ExceptionM
 {
     public $val;
@@ -62,18 +72,18 @@ class ExceptionM
     }
 }
 
-function evaluate(Term $term) : ExceptionM {
+function evaluateException(Term $term) : ExceptionM {
 
     switch($term->type) {
         case "cont":
             return ExceptionM::ret($term->cont);
         case "div":
-            $t = evaluate($term->a);
+            $t = evaluateException($term->a);
             switch($t->type) {
                 case "raise":
                     return $t;
                 case "return":
-                    $u = evaluate($term->b);
+                    $u = evaluateException($term->b);
                     switch ($u->type) {
                         case "raise":
                             return $u;
@@ -88,6 +98,7 @@ function evaluate(Term $term) : ExceptionM {
     }
 }
 
+
 function printMonad($m) {
     switch($m->type) {
         case "raise":
@@ -96,10 +107,7 @@ function printMonad($m) {
             echo $m->val;
     }
 }
-
-$term = Term::div(Term::cont(666), Term::div(Term::cont(333), Term::cont(111)));
-
-printMonad(evaluate($term));
+printMonad(evaluateException($term));
 
 
 
