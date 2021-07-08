@@ -139,9 +139,9 @@ function memoize($function) {
 }
 
 function last(array $a) {
-    $cpy = $a;
-    $result = array_pop($cpy);
-    return $result;
+    return array_values(
+        array_slice($a, -1)
+    )[0];
 }
 
 function lastKey(array $a) {
@@ -152,8 +152,6 @@ function lastKey(array $a) {
 }
 
 function allbutlast(array $a) {
-    $cpy = $a;
-    array_pop($cpy);
-    return $cpy;
+    return array_slice($a, 0, -1);
 }
 
